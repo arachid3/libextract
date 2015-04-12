@@ -3,7 +3,7 @@ from libextract.html import parse_html
 from libextract.coretools import histogram
 from libextract.html.xpaths import FILTER_TEXT
 from libextract.pruners import prune_by_text_length
-from libextract.maximizers import text_length_argmax
+from libextract.maximizers import argmax
 
 
 get_node = itemgetter(0)
@@ -20,5 +20,5 @@ def get_text(node):
 STRATEGY = (parse_html,
             prune_by_text_length,
             histogram,
-            text_length_argmax,
+            argmax,
             get_node)

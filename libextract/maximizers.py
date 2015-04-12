@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-from libextract.coretools import argmax as text_length_argmax
+from libextract.coretools import argmax
 
 
 def node_counter_argmax(pairs):
@@ -10,4 +10,4 @@ def node_counter_argmax(pairs):
     """
     for node, children in pairs:
         if children:
-            yield node, children.most_common(1)[0]
+            yield node, argmax(children)
