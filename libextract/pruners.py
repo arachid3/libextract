@@ -25,13 +25,13 @@ For example, if we were to not know that the *text_length* quantifier
 existed, we would simply create our own, under the following protocols:
 
 ```python
-    from libextract.pruners import pruner
+    from libextract.pruners import selects
     from libextract.html._xpaths import NODES_WITH_TEXT
 
     # INPUTS
     # "node" must declared, selector must be given as keyword argument
     # user must assume it is an lxml.html.HtmlElement object
-    @pruner(selector=NODES_WITH_TEXT)
+    @selects(selector=NODES_WITH_TEXT)
     def my_pruner(node):
         text = node.text
         textlen = len(' '.join(text.split())) if text else 0
