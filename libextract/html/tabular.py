@@ -1,20 +1,11 @@
 from heapq import nlargest
 from libextract.html import parse_html
 from libextract.pruners import prune_by_child_count
+from libextract.maximizers import node_counter_argmax
 
 # TODO: Consolidate get_pairs functions
 # TODO: Converge on get_*, filter_*
 # TODO: Better yet, decide on "meta/pipelining language"
-
-
-def node_counter_argmax(pairs):
-    """
-    Return the most frequent pair in a given iterable of
-    (node, collections.Counter) *pairs*.
-    """
-    for node, children in pairs:
-        if children:
-            yield node, children.most_common(1)[0]
 
 
 def select_score(pair):
