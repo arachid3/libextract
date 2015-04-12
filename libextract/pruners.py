@@ -1,46 +1,13 @@
+"""
+    libextract.pruners
+    ~~~~~~~~~~~~~~~~~~
+
+    Implements functions to aid `pruning`, a phase before
+    the prediction of which nodes are the most likely ones
+    containing text.
+"""
+
 from __future__ import absolute_import
-"""
-A submodule providing "pruning" functions.
-
-BACKGROUND:
-
-The extraction algorithms require HT/XML tree traversals.
-
-Before we *analyze* the frequency distributions of some particular
-element, which we'll refer to as the "prediction phase", we must
-first *prune* for nodes (lxml.html.HtmlElement) and *quantify* some
-measurement (numerical or collections.Counter).
-
-What this submodule provides is a decorator called *pruner* and some
-predefined pruners.
-
-The usecase is the following:
-
-The user want's to *measure* "something"; he or she can either
-import our builtin's (libextract.quantifiers), or they can create
-their "quantifier" within a custom function, which they would then
-decorate with *pruner*.
-
-For example, if we were to not know that the *text_length* quantifier
-existed, we would simply create our own, under the following protocols:
-
-```python
-    from libextract.pruners import pruner
-    from libextract.html._xpaths import NODES_WITH_TEXT
-
-    # INPUTS
-    # "node" must declared, selector must be given as keyword argument
-    # user must assume it is an lxml.html.HtmlElement object
-    @pruner(selector=NODES_WITH_TEXT)
-    def my_pruner(node):
-        text = node.text
-        textlen = len(' '.join(text.split())) if text else 0
-        return node.getparent(), textlen
-    # OUTPUTS
-    # lxml.html.HtmlElement, numerical or collections.Counter
-```
-"""
-
 from functools import wraps
 from collections import Counter
 
@@ -49,6 +16,11 @@ from libextract.metrics import count_children, text_length
 
 
 def selects(selector):
+    """
+    Given an XPath selector *selector*, returns a function
+    that yields the result of calling the wrapped function
+    on every node matching the *selector*.
+    """
     def decorator(func):
         @wraps(func)
         def quantifier(etree):
@@ -75,7 +47,3 @@ def prune_by_text_length(node):
     to node text length pairs.
     """
     return node.getparent(), text_length(node)
-
-
-def basket():
-    pass
