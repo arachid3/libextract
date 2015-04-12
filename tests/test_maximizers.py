@@ -19,3 +19,5 @@ def test_node_counter_argmax(argmax_pairs):
     u = {elem.tag: counter for elem, counter in argmax_pairs}
     u.pop('head')
     assert u['article'] == ('div', 9)
+    for key in u:
+        assert key in {'article', 'body', 'html'}

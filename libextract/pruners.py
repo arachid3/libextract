@@ -48,7 +48,7 @@ from libextract.html.xpaths import SELECT_ALL, NODES_WITH_TEXT
 from libextract.quantifiers import count_children, text_length
 
 
-def pruner(selector):
+def selects(selector):
     def decorator(func):
         @wraps(func)
         def quantifier(etree):
@@ -58,7 +58,7 @@ def pruner(selector):
     return decorator
 
 
-@pruner(selector=SELECT_ALL)
+@selects(selector=SELECT_ALL)
 def prune_by_child_count(node):
     """
     Given an *etree*, returns an iterable of parent
@@ -68,14 +68,10 @@ def prune_by_child_count(node):
     return node, count_children(node) or Counter()
 
 
-@pruner(selector=NODES_WITH_TEXT)
+@selects(selector=NODES_WITH_TEXT)
 def prune_by_text_length(node):
     """
     Given an *etree*, returns an iterable of parent
     to node text length pairs.
     """
     return node.getparent(), text_length(node)
-
-
-def basket():
-    pass
