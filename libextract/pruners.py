@@ -1,26 +1,8 @@
-from __future__ import absolute_import
 """
-A submodule providing "pruning" functions.
+    libextract.pruners
+    ~~~~~~~~~~~~~~~~~~
 
-BACKGROUND:
-
-The extraction algorithms require HT/XML tree traversals.
-
-Before we *analyze* the frequency distributions of some particular
-element, which we'll refer to as the "prediction phase", we must
-first *prune* for nodes (lxml.html.HtmlElement) and *quantify* some
-measurement (numerical or collections.Counter).
-
-What this submodule provides is a decorator called *pruner* and some
-predefined pruners.
-
-The usecase is the following:
-
-The user want's to *measure* "something"; he or she can either
-import our builtin's (libextract.quantifiers), or they can create
-their "quantifier" within a custom function, which they would then
-decorate with *pruner*.
-
+<<<<<<< HEAD
 For example, if we were to not know that the *text_length* quantifier
 existed, we would simply create our own, under the following protocols:
 
@@ -39,16 +21,30 @@ existed, we would simply create our own, under the following protocols:
     # OUTPUTS
     # lxml.html.HtmlElement, numerical or collections.Counter
 ```
+=======
+    Implements functions to aid `pruning`, a phase before
+    the prediction of which nodes are the most likely ones
+    containing text.
+>>>>>>> 113744fb65b31626c94276c90173c8f53e986803
 """
 
+from __future__ import absolute_import
 from functools import wraps
 from collections import Counter
 
 from libextract.html.xpaths import SELECT_ALL, NODES_WITH_TEXT
-from libextract.quantifiers import count_children, text_length
+from libextract.metrics import count_children, text_length
 
 
 def selects(selector):
+<<<<<<< HEAD
+=======
+    """
+    Given an XPath selector *selector*, returns a function
+    that yields the result of calling the wrapped function
+    on every node matching the *selector*.
+    """
+>>>>>>> 113744fb65b31626c94276c90173c8f53e986803
     def decorator(func):
         @wraps(func)
         def quantifier(etree):
@@ -58,7 +54,11 @@ def selects(selector):
     return decorator
 
 
+<<<<<<< HEAD
 @selects(selector=SELECT_ALL)
+=======
+@selects(SELECT_ALL)
+>>>>>>> 113744fb65b31626c94276c90173c8f53e986803
 def prune_by_child_count(node):
     """
     Given an *etree*, returns an iterable of parent
@@ -68,7 +68,11 @@ def prune_by_child_count(node):
     return node, count_children(node) or Counter()
 
 
+<<<<<<< HEAD
 @selects(selector=NODES_WITH_TEXT)
+=======
+@selects(NODES_WITH_TEXT)
+>>>>>>> 113744fb65b31626c94276c90173c8f53e986803
 def prune_by_text_length(node):
     """
     Given an *etree*, returns an iterable of parent
